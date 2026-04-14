@@ -9,7 +9,7 @@ from PIL import Image
 
 class ImageEncoderService:
     @staticmethod
-    def encode_image_to_base64(image_source: Image.Image) -> str:
+    def encode_image_to_base64(image_source: str | Image.Image) -> str:
         if isinstance(image_source, str):
             if not os.path.exists(image_source):
                 raise FileNotFoundError(f"Image not found: {image_source}")
