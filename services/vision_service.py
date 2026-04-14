@@ -10,7 +10,7 @@ class VisionService:
     def __init__(self) -> None:
         self._client = OpenAIClientFactory.create()
 
-    def query_client(
+    def query_image(
         self,
         image_to_llm: str | Image.Image,
         prompt: str,
