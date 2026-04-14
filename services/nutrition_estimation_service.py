@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 
 from models.nutrition_models import FoodItem, NutritionResult, NutritionTotal
 from prompts.nutrition_prompts import NutritionPrompts
@@ -15,40 +16,38 @@ class NutritionEstimationService:
         return self._vision_service.query_image(
             image_to_llm=image_path,
             prompt=NutritionPrompts.FOOD_IDENTIFICATION_PROMPT,
-            max_tokens=250,
         )
 
     def estimate_nutrition(self, image_path: str) -> NutritionResult:
         raw_response = self._vision_service.query_image(
             image_to_llm=image_path,
             prompt=NutritionPrompts.NUTRITION_INFORMATION_PROMPT,
-            max_tokens=400,
         )
 
-        parsed_response = json.loads(raw_response)
+        parsed_response = self._parse_llm_json_response(raw_response)
 
         items = [
             FoodItem(
                 name=item["name"],
                 portion=item["portion"],
-                calories=item["calories"],
-                protein_g=item["protein_g"],
-                carbs_g=item["carbs_g"],
-                fat_g=item["fat_g"],
-                fiber_g=item["fiber_g"],
-                sugar_g=item["sugar_g"],
+                calories=int(item["calories"]),
+                protein_g=int(item["protein_g"]),
+                carbs_g=int(item["carbs_g"]),
+                fat_g=int(item["fat_g"]),
+                fiber_g=int(item["fiber_g"]),
+                sugar_g=int(item["sugar_g"]),
             )
             for item in parsed_response["items"]
         ]
 
         total = parsed_response["total"]
         nutrition_total = NutritionTotal(
-            calories=total["calories"],
-            protein_g=total["protein_g"],
-            carbs_g=total["carbs_g"],
-            fat_g=total["fat_g"],
-            fiber_g=total["fiber_g"],
-            sugar_g=total["sugar_g"],
+            calories=int(total["calories"]),
+            protein_g=int(total["protein_g"]),
+            carbs_g=int(total["carbs_g"]),
+            fat_g=int(total["fat_g"]),
+            fiber_g=int(total["fiber_g"]),
+            sugar_g=int(total["sugar_g"]),
         )
 
         return NutritionResult(items=items, total=nutrition_total)
@@ -57,3 +56,32 @@ class NutritionEstimationService:
         identified_foods = self.identify_foods(image_path)
         nutrition_result = self.estimate_nutrition(image_path)
         return identified_foods, nutrition_result
+
+    def _parse_llm_json_response(self, raw_response: str) -> dict:
+        cleaned_response = raw_response.strip()
+
+        cleaned_response = re.sub(r"^```json\s*", "", cleaned_response, flags=re.IGNORECASE)
+        cleaned_response = re.sub(r"^```\s*", "", cleaned_response)
+        cleaned_response = re.sub(r"\s*```$", "", cleaned_response)
+
+        if not cleaned_response.endswith("}") and not cleaned_response.endswith("]}"):
+            raise ValueError(
+                "The model response appears to be truncated before the JSON finished. "
+                "Try increasing max_tokens."
+            )
+
+        json_match = re.search(r"\{.*\}", cleaned_response, re.DOTALL)
+        if not json_match:
+            raise ValueError(
+                f"Could not find valid JSON object in model response:\n{raw_response}"
+            )
+
+        json_string = json_match.group(0)
+        json_string = re.sub(r",(\s*[}\]])", r"\1", json_string)
+
+        try:
+            return json.loads(json_string)
+        except json.JSONDecodeError as exc:
+            raise ValueError(
+                f"Failed to parse model JSON response.\nRaw response was:\n{raw_response}"
+            ) from exc

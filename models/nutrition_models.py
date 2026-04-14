@@ -8,9 +8,9 @@ class FoodItem:
     name: str
     portion: str
     calories: int
-    proteins_g: int
+    protein_g: int
     carbs_g: int
-    fats_g: int
+    fat_g: int
     fiber_g: int
     sugar_g: int
 
