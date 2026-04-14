@@ -41,9 +41,8 @@ class CalorieTrackerApp:
             image_input = gr.Image(type="filepath", label="Upload Food Image")
             analyze_button = gr.Button("Analyze")
 
-            identified_foods_output = gr.Textbox(
+            identified_foods_output = gr.Markdown(
                 label="Identified Food Items",
-                lines=8,
             )
             summary_output = gr.Textbox(
                 label="Nutrition Summary",

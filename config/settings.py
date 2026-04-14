@@ -8,7 +8,7 @@ load_dotenv()
 @dataclass(frozen=True)
 class Settings:
     openai_api_key  : str | None    = os.environ.get("OPENAI_API_KEY")
-    vision_model    : str           = os.environ.get("VISION_MODEL", "gpt-4o-mini")
+    vision_model    : str           = os.environ.get("VISION_MODEL", "gpt-5.4-mini")
     max_tokens      : int | None    = int(os.environ.get("MAX_TOKENS", "800"))
 
 settings = Settings()

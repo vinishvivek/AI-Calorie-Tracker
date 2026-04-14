@@ -14,7 +14,6 @@ class VisionService:
         self,
         image_to_llm: str | Image.Image,
         prompt: str,
-        max_tokens: int | None = None,
         ) -> str:
         base64_encoded_image = ImageEncoderService.encode_image_to_base64(image_to_llm)
 
@@ -24,7 +23,6 @@ class VisionService:
 
         response = self._client.chat.completions.create(
             model=settings.vision_model,
-            max_tokens=max_tokens,
             messages=[
                 {
                     "role": "user",
