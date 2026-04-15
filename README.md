@@ -31,6 +31,19 @@ This project explores how **multimodal AI models** can automate this process by:
 
 ---
 
+## 📸 Demo
+
+### Upload Interface
+![Upload UI](assets/upload_ui_empty.png)
+
+### Image Loaded
+![Image UI](assets/ui_with_image.png)
+
+### Analysis Output
+![Output UI](assets/ui_with_output.png)
+
+---
+
 ## 🧠 Solution Architecture
 
 The system is designed as a **layered AI pipeline**, separating concerns for scalability and maintainability.
