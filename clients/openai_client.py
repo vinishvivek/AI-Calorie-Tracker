@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 from openai import OpenAI
+
 from config.settings import settings
+
 
 class OpenAIClientFactory:
     """Create configured OpenAI client instances for application services."""

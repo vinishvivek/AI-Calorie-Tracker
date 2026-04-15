@@ -22,8 +22,8 @@ class CalorieTrackerApp:
 
             FileUtils.validate_image_path(image_path)
 
-            identified_foods, nutrition_result = self._nutrition_service.run_full_analysis(
-                image_path=image_path
+            identified_foods, nutrition_result = (
+                self._nutrition_service.run_full_analysis(image_path=image_path)
             )
 
             dataframe = pd.DataFrame(nutrition_result.to_table_rows())
@@ -41,14 +41,14 @@ class CalorieTrackerApp:
         """Create and return the Gradio interface for the calorie tracking application."""
         with gr.Blocks() as interface:
             gr.Markdown("# 🍳 AI Calorie Tracker")
-            gr.Markdown("Upload a food image to identify items and estimate calories 🔥 ")
+            gr.Markdown(
+                "Upload a food image to identify items and estimate calories 🔥 "
+            )
 
             with gr.Row():
                 with gr.Column(scale=1):
                     image_input = gr.Image(
-                        type="filepath",
-                        label="Upload Food Image",
-                        height=300
+                        type="filepath", label="Upload Food Image", height=300
                     )
                     analyze_button = gr.Button("Analyze")
 

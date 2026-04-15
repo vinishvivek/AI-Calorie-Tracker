@@ -1,11 +1,13 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from typing import Any
+
 
 @dataclass
 class FoodItem:
     """Represent a single detected food item and its estimated nutrition values."""
+
     name: str
     portion: str
     calories: int
@@ -19,9 +21,11 @@ class FoodItem:
         """Convert the food item into a dictionary for tabular display or serialization."""
         return asdict(self)
 
+
 @dataclass
 class NutritionTotal:
     """Represent the aggregated nutrition totals for a full meal or image."""
+
     calories: int
     protein_g: int
     carbs_g: int
@@ -33,9 +37,11 @@ class NutritionTotal:
         """Convert the nutrition totals into a dictionary representation."""
         return asdict(self)
 
+
 @dataclass
 class NutritionResult:
     """Store the complete nutrition analysis result, including individual items and totals."""
+
     items: list[FoodItem]
     total: NutritionTotal
 

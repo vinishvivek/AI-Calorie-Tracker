@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+
 class NutritionPrompts:
     FOOD_IDENTIFICATION_PROMPT = """
 Context: Understand the food item in the image.

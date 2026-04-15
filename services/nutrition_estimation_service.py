@@ -67,7 +67,9 @@ class NutritionEstimationService:
         """Clean, extract, and parse JSON-like model output into a Python dictionary."""
         cleaned_response = raw_response.strip()
 
-        cleaned_response = re.sub(r"^```json\s*", "", cleaned_response, flags=re.IGNORECASE)
+        cleaned_response = re.sub(
+            r"^```json\s*", "", cleaned_response, flags=re.IGNORECASE
+        )
         cleaned_response = re.sub(r"^```\s*", "", cleaned_response)
         cleaned_response = re.sub(r"\s*```$", "", cleaned_response)
 

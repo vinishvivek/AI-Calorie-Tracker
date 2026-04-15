@@ -6,6 +6,7 @@ from clients.openai_client import OpenAIClientFactory
 from config.settings import settings
 from services.image_encoder_service import ImageEncoderService
 
+
 class VisionService:
     """Send image-based prompts to the vision model and return the generated response."""
 
@@ -14,9 +15,9 @@ class VisionService:
         self._client = OpenAIClientFactory.create()
 
     def query_image(
-            self,
-            image_to_llm: str | Image.Image,
-            prompt: str,
+        self,
+        image_to_llm: str | Image.Image,
+        prompt: str,
     ) -> str:
         """Submit an image and prompt to the vision model and return the text response."""
         base64_encoded_image = ImageEncoderService.encode_image_to_base64(image_to_llm)
@@ -30,22 +31,17 @@ class VisionService:
             messages=[
                 {
                     "role": "user",
-                    "content":[
-                        {
-                            "type": "text",
-                            "text":prompt
-                        },
+                    "content": [
+                        {"type": "text", "text": prompt},
                         {
                             "type": "image_url",
                             "image_url": {
                                 "url": f"data:{mime_type};base64,{base64_encoded_image}"
-                            }
-                        }
-                    ]
+                            },
+                        },
+                    ],
                 }
             ],
         )
 
         return response.choices[0].message.content
-
-

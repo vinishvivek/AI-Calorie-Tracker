@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import base64
-import os
 import io
+import os
 from pathlib import Path
 
 from PIL import Image
+
 
 class ImageEncoderService:
     """Handle image loading and base64 encoding for model-ready image input."""

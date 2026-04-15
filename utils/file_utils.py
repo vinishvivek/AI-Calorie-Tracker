@@ -5,6 +5,7 @@ from pathlib import Path
 
 class FileUtils:
     """Provide validation helpers for uploaded image files."""
+
     ALLOWED_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
 
     @classmethod
