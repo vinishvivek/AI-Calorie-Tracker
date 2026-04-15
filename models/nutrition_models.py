@@ -39,12 +39,11 @@ class NutritionResult:
 
     def summary_text(self) -> str:
         return (
-            "----------------------------------------------\n"
-            f"Total Calories:   |{self.total.calories} kcal\n"
-            f"Protein:          |{self.total.protein_g} g\n"
-            f"Carbs:            |{self.total.carbs_g} g\n"
-            f"Fat:              |{self.total.fat_g} g\n"
-            f"Fiber:            |{self.total.fiber_g} g\n"
-            f"Sugar:            |{self.total.sugar_g} g\n"
-            "----------------------------------------------\n"
+            f"Total Calories:{self.total.calories} kcal\n"
+            f"Protein: {self.total.protein_g} g\n"
+            f"Carbs: {self.total.carbs_g} g\n"
+            f"Fat: {self.total.fat_g} g\n"
+            f"Fiber:{self.total.fiber_g} g\n"
+            f"Sugar: {self.total.sugar_g} g\n"
+            "⚠ ️Estimates are approximate and based on visual analysis"
         )

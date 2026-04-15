@@ -35,20 +35,27 @@ class CalorieTrackerApp:
 
     def build_interface(self) -> gr.Blocks:
         with gr.Blocks() as interface:
-            gr.Markdown("# AI Calorie Tracker")
-            gr.Markdown("Upload a food image to identify items and estimate calories.")
+            gr.Markdown("# 🍳 AI Calorie Tracker")
+            gr.Markdown("Upload a food image to identify items and estimate calories 🔥 ")
 
-            image_input = gr.Image(type="filepath", label="Upload Food Image")
-            analyze_button = gr.Button("Analyze")
+            with gr.Row():
+                with gr.Column(scale=1):
+                    image_input = gr.Image(
+                        type="filepath",
+                        label="Upload Food Image",
+                        height=300
+                    )
+                    analyze_button = gr.Button("Analyze")
 
-            identified_foods_output = gr.Markdown(
-                label="Identified Food Items",
-            )
-            summary_output = gr.Textbox(
-                label="Nutrition Summary",
-                lines=8,
-            )
-            table_output = gr.Dataframe(label="Nutrition Breakdown")
+                with gr.Column(scale=2):
+                    summary_output = gr.Textbox(
+                        label="Etimated Nutrition",
+                        lines=6,
+                    )
+                    identified_foods_output = gr.Markdown(
+                        label="Detected Ingredients & Portions",
+                    )
+                    table_output = gr.Dataframe(label="Detailed Nutrition Breakdown")
 
             analyze_button.click(
                 fn=self.analyze_image,
@@ -61,9 +68,3 @@ class CalorieTrackerApp:
             )
 
         return interface
-
-
-if __name__ == "__main__":
-    app = CalorieTrackerApp()
-    interface = app.build_interface()
-    interface.launch()
