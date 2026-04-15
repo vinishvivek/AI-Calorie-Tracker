@@ -7,14 +7,18 @@ from config.settings import settings
 from services.image_encoder_service import ImageEncoderService
 
 class VisionService:
+    """Send image-based prompts to the vision model and return the generated response."""
+
     def __init__(self) -> None:
+        """Initialize the vision service with an OpenAI client instance."""
         self._client = OpenAIClientFactory.create()
 
     def query_image(
-        self,
-        image_to_llm: str | Image.Image,
-        prompt: str,
-        ) -> str:
+            self,
+            image_to_llm: str | Image.Image,
+            prompt: str,
+    ) -> str:
+        """Submit an image and prompt to the vision model and return the text response."""
         base64_encoded_image = ImageEncoderService.encode_image_to_base64(image_to_llm)
 
         mime_type = "image/jpeg"

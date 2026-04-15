@@ -4,10 +4,12 @@ from pathlib import Path
 
 
 class FileUtils:
+    """Provide validation helpers for uploaded image files."""
     ALLOWED_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
 
     @classmethod
     def validate_image_path(cls, image_path: str) -> None:
+        """Validate that the image exists and uses a supported file extension."""
         path = Path(image_path)
 
         if not path.exists():

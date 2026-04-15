@@ -8,8 +8,11 @@ from pathlib import Path
 from PIL import Image
 
 class ImageEncoderService:
+    """Handle image loading and base64 encoding for model-ready image input."""
+
     @staticmethod
     def encode_image_to_base64(image_source: str | Image.Image) -> str:
+        """Convert an image file path or PIL image into a base64-encoded string."""
         if isinstance(image_source, str):
             if not os.path.exists(image_source):
                 raise FileNotFoundError(f"Image not found: {image_source}")
@@ -27,6 +30,7 @@ class ImageEncoderService:
 
     @staticmethod
     def get_mime_type(image_path: str) -> str:
+        """Return the MIME type for a supported image file based on its extension."""
         extension = Path(image_path).suffix.lower()
 
         mapping = {

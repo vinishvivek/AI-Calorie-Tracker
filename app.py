@@ -8,10 +8,14 @@ from utils.file_utils import FileUtils
 
 
 class CalorieTrackerApp:
+    """Build and manage the Gradio interface for the AI Calorie Tracker."""
+
     def __init__(self) -> None:
+        """Initialize the application with the nutrition analysis service."""
         self._nutrition_service = NutritionEstimationService()
 
     def analyze_image(self, image_path: str) -> tuple[str, str, pd.DataFrame]:
+        """Analyze an uploaded food image and return detected items, summary, and nutrition table."""
         try:
             if not image_path:
                 raise gr.Error("Please upload an image.")
@@ -34,6 +38,7 @@ class CalorieTrackerApp:
             raise gr.Error(f"Analysis failed: {str(exc)}")
 
     def build_interface(self) -> gr.Blocks:
+        """Create and return the Gradio interface for the calorie tracking application."""
         with gr.Blocks() as interface:
             gr.Markdown("# 🍳 AI Calorie Tracker")
             gr.Markdown("Upload a food image to identify items and estimate calories 🔥 ")
